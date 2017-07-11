@@ -105,4 +105,53 @@ icc(subset(j_qual, ds == "BAGEL" & sys == "Dusek")[,2:4], unit = "a") # 0.46, p<
 icc(subset(j_qual, ds == "BAGEL" & sys == "LOLS")[,2:4], unit = "a") # 0.31, p<0.01
 
 
+##### Correlations by dataset and system (Table 9) #####
+
+      ######## For Bagel / TGen: ########
+dus <- subset(df, system=="Dusek")
+dusek.cor <- as.data.frame(cbind(cor(dus[, c(6:31)], 
+                                     method = "spearman")[1:23,-c(1:23)],
+                                 rcorr(as.matrix(dus[, c(6:31)]), 
+                                       type = "spearman")$P[1:23,-c(1:23)]))
+names(dusek.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For Bagel / LOLS: ########
+lols.bag <- subset(df, system=="LOLS" & dataset=="BAGEL")
+lols.bag.cor <- as.data.frame(cbind(cor(lols.bag[, c(6:31)], 
+                                        method = "spearman")[1:23,-c(1:23)],
+                                    rcorr(as.matrix(lols.bag[, c(6:31)]), 
+                                          type = "spearman")$P[1:23,-c(1:23)]))
+names(lols.bag.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFHotel / RNNLG: ########
+wen.sfh <- subset(df,system=="WEN" & dataset=="SFHOT")
+wen.sfh.cor <- as.data.frame(cbind(cor(wen.sfh[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(wen.sfh[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(wen.sfh.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFHotel / LOLS: ########
+lols.sfh <- subset(df, system=="LOLS" & dataset=="SFHOT")
+lol.sfh.cor <- as.data.frame(cbind(cor(lols.sfh[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(lols.sfh[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(lol.sfh.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFRest / RNNLG: ########
+wen.sfr <- subset(df,system=="WEN" & dataset=="SFRES")
+wen.sfr.cor <- as.data.frame(cbind(cor(wen.sfr[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(wen.sfr[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(wen.sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFRest / LOLS: ########
+lols.sfr <- subset(df, system=="LOLS" & dataset=="SFRES")
+lol.sfr.cor <- as.data.frame(cbind(cor(lols.sfr[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(lols.sfr[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(lol.sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
 
