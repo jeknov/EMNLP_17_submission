@@ -1,6 +1,6 @@
 ##### Load Data #####
-df <- read.csv("final_median.csv")
-df_all <- read.csv("final_20161219_individual_hum_scores.csv")
+df <- read.csv("emnlp_data_medians.csv")
+df_all <- read.csv("emnlp_data_individual_hum_scores.csv")
 
 ##### Import Packages #####
 library(dplyr)
@@ -105,7 +105,7 @@ icc(subset(j_qual, ds == "BAGEL" & sys == "Dusek")[,2:4], unit = "a") # 0.46, p<
 icc(subset(j_qual, ds == "BAGEL" & sys == "LOLS")[,2:4], unit = "a") # 0.31, p<0.01
 
 
-##### Correlations by dataset and system (Table 9) #####
+##### Correlations by Dataset and System (Table 9) #####
 
       ######## For Bagel / TGen: ########
 dus <- subset(df, system=="Dusek")
@@ -154,4 +154,7 @@ lol.sfr.cor <- as.data.frame(cbind(cor(lols.sfr[, c(6:31)],
                                    rcorr(as.matrix(lols.sfr[, c(6:31)]), 
                                          type = "spearman")$P[1:23,-c(1:23)]))
 names(lol.sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+
+
 
