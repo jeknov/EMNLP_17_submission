@@ -327,3 +327,35 @@ not.bad.q.cor <- as.data.frame(cbind(cor(not.bad.q[, c(6:31)],
                                      rcorr(as.matrix(not.bad.q[, c(6:31)]), 
                                            type = "spearman")$P[1:23,-c(1:23)]))
 names(not.bad.q.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+###### Correlation by MR Type (Tab.14) ######
+inform <- subset(df, mr_type == "inform")
+not.inform <- subset(df, mr_type != "inform")
+
+inform.cor <- as.data.frame(cbind(cor(inform[, c(6:31)], 
+                                      method = "spearman")[1:23,-c(1:23)],
+                                  rcorr(as.matrix(inform[, c(6:31)]), 
+                                        type = "spearman")$P[1:23,-c(1:23)]))
+names(inform.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+not.inform.cor <- as.data.frame(cbind(cor(not.inform[, c(6:31)], 
+                                          method = "spearman")[1:23,-c(1:23)],
+                                      rcorr(as.matrix(not.inform[, c(6:31)]), 
+                                            type = "spearman")$P[1:23,-c(1:23)]))
+names(not.inform.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+
+diff <- as.data.frame(matrix(nrow=22, ncol = 3))
+
+for (i in 6:27){
+  diff[i-5,1] <- r.test(n=2101, r12=cor(inform$informativeness, inform[,i], method = "spearman"),
+                        r34=cor(not.inform$informativeness, not.inform[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,2] <- r.test(n=2101, r12=cor(inform$naturalness, inform[,i], method = "spearman"),
+                        r34=cor(not.inform$naturalness, not.inform[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,3] <- r.test(n=2101, r12=cor(inform$quality, inform[,i], method = "spearman"),
+                        r34=cor(not.inform$quality, not.inform[,i], method = "spearman"),
+                        n2=359)$p
+}
+names(diff)<-c("INF","NAT","QUA")
+rownames(diff)<-colnames(inform[,6:27])
