@@ -284,3 +284,46 @@ names(diff)<-c("inf dusek-lols", "inf dusek-wen", "inf lols-wen",
                "qua dusek-lols", "qua dusek-wen", "qua lols-wen")
 rownames(diff)<-colnames(dus[,6:27])
 
+
+###### Correlations between WBM and Human Ratings Bins (Tab.13) ######
+bad.inf <- subset(df, inf_bin == "bad")
+not.bad.inf <- subset(df, inf_bin != "bad")
+
+bad.nat <- subset(df, nat_bin == "bad")
+not.bad.nat <- subset(df, nat_bin != "bad")
+
+bad.q <- subset(df, qual_bin == "bad")
+not.bad.q <- subset(df, qual_bin != "bad")
+
+bad.inf.cor <- as.data.frame(cbind(cor(bad.inf[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(bad.inf[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(bad.inf.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+not.bad.inf.cor <- as.data.frame(cbind(cor(not.bad.inf[, c(6:31)], 
+                                           method = "spearman")[1:23,-c(1:23)],
+                                       rcorr(as.matrix(not.bad.inf[, c(6:31)]), 
+                                             type = "spearman")$P[1:23,-c(1:23)]))
+names(not.bad.inf.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+bad.nat.cor <- as.data.frame(cbind(cor(bad.nat[, c(6:31)], 
+                                       method = "spearman")[1:23,-c(1:23)],
+                                   rcorr(as.matrix(bad.nat[, c(6:31)]), 
+                                         type = "spearman")$P[1:23,-c(1:23)]))
+names(bad.nat.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+not.bad.nat.cor <- as.data.frame(cbind(cor(not.bad.nat[, c(6:31)], 
+                                           method = "spearman")[1:23,-c(1:23)],
+                                       rcorr(as.matrix(not.bad.nat[, c(6:31)]), 
+                                             type = "spearman")$P[1:23,-c(1:23)]))
+names(not.bad.nat.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+bad.q.cor <- as.data.frame(cbind(cor(bad.q[, c(6:31)], 
+                                     method = "spearman")[1:23,-c(1:23)],
+                                 rcorr(as.matrix(bad.q[, c(6:31)]), 
+                                       type = "spearman")$P[1:23,-c(1:23)]))
+names(bad.q.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+not.bad.q.cor <- as.data.frame(cbind(cor(not.bad.q[, c(6:31)], 
+                                         method = "spearman")[1:23,-c(1:23)],
+                                     rcorr(as.matrix(not.bad.q[, c(6:31)]), 
+                                           type = "spearman")$P[1:23,-c(1:23)]))
+names(not.bad.q.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
