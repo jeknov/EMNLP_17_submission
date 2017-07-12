@@ -156,5 +156,74 @@ lol.sfr.cor <- as.data.frame(cbind(cor(lols.sfr[, c(6:31)],
 names(lol.sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
 
 
+##### Correlations by Dataset (Table 10) #####
+
+      ######## For Bagel: ######## 
+bagel <- subset(df, dataset=="BAGEL")
+bagel.cor <- as.data.frame(cbind(cor(bagel[, c(6:31)], 
+                                     method = "spearman")[1:23,-c(1:23)],
+                                 rcorr(as.matrix(bagel[, c(6:31)]), 
+                                       type = "spearman")$P[1:23,-c(1:23)]))
+names(bagel.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFHotel: ######## 
+sfh <- subset(df, dataset=="SFHOT")
+sfh.cor <- as.data.frame(cbind(cor(sfh[, c(6:31)], 
+                                   method = "spearman")[1:23,-c(1:23)],
+                               rcorr(as.matrix(sfh[, c(6:31)]), 
+                                     type = "spearman")$P[1:23,-c(1:23)]))
+names(sfh.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## For SFRest: ######## 
+sfr <- subset(df, dataset == "SFRES")
+sfr.cor <- as.data.frame(cbind(cor(sfr[, c(6:31)], 
+                                   method = "spearman")[1:23,-c(1:23)],
+                               rcorr(as.matrix(sfr[, c(6:31)]), 
+                                     type = "spearman")$P[1:23,-c(1:23)]))
+names(sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
+
+      ######## Significance of correlation differences: ########
+diff <- as.data.frame(matrix(nrow=22, ncol = 9)) # diff of corr btw systems
+
+for (i in 6:27){
+  diff[i-5,1] <- r.test(n=2101, r12=cor(bagel$informativeness, bagel[,i], method = "spearman"),
+                        r34=cor(sfh$informativeness, sfh[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,2] <- r.test(n=2101, r12=cor(bagel$informativeness, bagel[,i], method = "spearman"),
+                        r34=cor(sfr$informativeness, sfr[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,3] <- r.test(n=2101, r12=cor(sfr$informativeness, sfr[,i], method = "spearman"),
+                        r34=cor(sfh$informativeness, sfh[,i], method = "spearman"),
+                        n2=359)$p
+  
+  diff[i-5,4] <- r.test(n=2101, r12=cor(bagel$naturalness, bagel[,i], method = "spearman"),
+                        r34=cor(sfh$naturalness, sfh[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,5] <- r.test(n=2101, r12=cor(bagel$naturalness, bagel[,i], method = "spearman"),
+                        r34=cor(sfr$naturalness, sfr[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,6] <- r.test(n=2101, r12=cor(sfr$naturalness, sfr[,i], method = "spearman"),
+                        r34=cor(sfh$naturalness, sfh[,i], method = "spearman"),
+                        n2=359)$p
+  
+  diff[i-5,7] <- r.test(n=2101, r12=cor(bagel$quality, bagel[,i], method = "spearman"),
+                        r34=cor(sfh$quality, sfh[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,8] <- r.test(n=2101, r12=cor(bagel$quality, bagel[,i], method = "spearman"),
+                        r34=cor(sfr$quality, sfr[,i], method = "spearman"),
+                        n2=359)$p
+  diff[i-5,9] <- r.test(n=2101, r12=cor(sfr$quality, sfr[,i], method = "spearman"),
+                        r34=cor(sfh$quality, sfh[,i], method = "spearman"),
+                        n2=359)$p
+}
+names(diff)<-c("inf bag-sfh", "inf bag-sfr", "inf sfr-sfh",
+               "nat bag-sfh", "nat bag-sfr", "nat sfr-sfh",
+               "qua bag-sfh", "qua bag-sfr", "qua sfr-sfh")
+rownames(diff)<-colnames(bagel[,6:27])
+
+
+
+
+
 
 
