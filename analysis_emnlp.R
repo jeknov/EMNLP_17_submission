@@ -104,6 +104,119 @@ icc(subset(j_qual, ds == "BAGEL")[,2:4], unit = "a") # 0.38, p<0.01
 icc(subset(j_qual, ds == "BAGEL" & sys == "Dusek")[,2:4], unit = "a") # 0.46, p<0.01
 icc(subset(j_qual, ds == "BAGEL" & sys == "LOLS")[,2:4], unit = "a") # 0.31, p<0.01
 
+##### Systems Performance for All Datasets (Table 8) #####
+dus <- subset(df, system=="Dusek")
+lols.bag <- subset(df, system=="LOLS" & dataset=="BAGEL")
+
+wen.sfh <- subset(df,system=="WEN" & dataset=="SFHOT")
+lols.sfh <- subset(df, system=="LOLS" & dataset=="SFHOT")
+
+wen.sfr <- subset(df,system=="WEN" & dataset=="SFRES")
+lols.sfr <- subset(df, system=="LOLS" & dataset=="SFRES")
+
+bag.dus.avg<-as.data.frame(summary(dus[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+bag.lols.avg<-as.data.frame(summary(lols.bag[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+wen.sfh.avg<-as.data.frame(summary(wen.sfh[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+lols.sfh.avg<-as.data.frame(summary(lols.sfh[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+wen.sfr.avg<-as.data.frame(summary(wen.sfr[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+lols.sfr.avg<-as.data.frame(summary(lols.sfr[,c(6:27,29:31)]))[seq(4,150,6),] %>% 
+  separate(Freq, sep = ":", into = c(" ", "mean"))
+
+avg <- cbind(bag.dus.avg[,c(2,4)], as.data.frame(sapply(dus[,c(6:27,29:31)], sd)), 
+             bag.lols.avg[,4], as.data.frame(sapply(lols.bag[,c(6:27,29:31)], sd)),
+             wen.sfh.avg[,4], as.data.frame(sapply(wen.sfh[,c(6:27,29:31)], sd)),
+             lols.sfh.avg[,4], as.data.frame(sapply(lols.sfh[,c(6:27,29:31)], sd)),
+             wen.sfr.avg[,4], as.data.frame(sapply(wen.sfr[,c(6:27,29:31)], sd)),
+             lols.sfr.avg[,4], as.data.frame(sapply(lols.sfr[,c(6:27,29:31)], sd)))
+names(avg) <- c("Metric", "TGen/Bagel, avg", "TGen/Bagel, sd", "LOLS/Bagel, avg", "LOLS/Bagel, sd",
+                "RNNLG/SFHotel, avg", "RNNLG/SFHotel, sd", "LOLS/SFHotel, avg", "LOLS/SFHotel, sd",
+                "RNNLG/SFRes, avg", "RNNLG/SFRes, sd", "LOLS/SFRes, avg", "LOLS/SFRes, sd")
+
+bag<-subset(df, dataset == "BAGEL")
+pairwise.t.test(bag$Bleu_1, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$Bleu_2, bag$system, p.adj = "none") 
+pairwise.t.test(bag$Bleu_3, bag$system, p.adj = "none")
+pairwise.t.test(bag$Bleu_4, bag$system, p.adj = "none")
+pairwise.t.test(bag$TER, bag$system, p.adj = "none")
+pairwise.t.test(bag$ROUGE_L, bag$system, p.adj = "none")
+pairwise.t.test(bag$NIST, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$LEPOR, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$CIDEr, bag$system, p.adj = "none")
+pairwise.t.test(bag$METEOR, bag$system, p.adj = "none")
+pairwise.t.test(bag$sim.mr.sys, bag$system, p.adj = "none")
+pairwise.t.test(bag$sys.read.flesch, bag$system, p.adj = "none")
+pairwise.t.test(bag$sys.cpw, bag$system, p.adj = "none")
+pairwise.t.test(bag$sys.ref.len, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$sys.wps, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$sys.sps, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$sys.spw, bag$system, p.adj = "none")
+pairwise.t.test(bag$sys.n.poly, bag$system, p.adj = "none")
+pairwise.t.test(bag$sys.pspw, bag$system, p.adj = "none")
+pairwise.t.test(bag$n.misspel, bag$system, p.adj = "none") #*
+pairwise.t.test(bag$parser.sc.mean, bag$system, p.adj = "none") #*
+
+pairwise.t.test(bag$informativeness, bag$system, p.adj = "none")
+pairwise.t.test(bag$naturalness, bag$system, p.adj = "none")
+pairwise.t.test(bag$quality, bag$system, p.adj = "none")
+
+sfh<-subset(df, dataset == "SFHOT")
+pairwise.t.test(sfh$Bleu_1, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$Bleu_2, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$Bleu_3, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$Bleu_4, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$TER, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$ROUGE_L, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$NIST, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$LEPOR, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$CIDEr, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$METEOR, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$sim.mr.sys, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$sys.read.flesch, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$sys.cpw, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$sys.ref.len, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$sys.wps, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$sys.sps, sfh$system, p.adj = "none") #*
+pairwise.t.test(sfh$sys.spw, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$sys.n.poly, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$sys.pspw, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$n.misspel, sfh$system, p.adj = "none") 
+pairwise.t.test(sfh$parser.sc.mean, sfh$system, p.adj = "none") #*
+
+pairwise.t.test(sfh$informativeness, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$naturalness, sfh$system, p.adj = "none")
+pairwise.t.test(sfh$quality, sfh$system, p.adj = "none")
+
+sfr<-subset(df,dataset == "SFRES")
+pairwise.t.test(sfr$Bleu_1, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$Bleu_2, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$Bleu_3, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$Bleu_4, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$TER, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$ROUGE_L, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$NIST, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$LEPOR, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$CIDEr, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$METEOR, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$sim.mr.sys, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$sys.read.flesch, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$sys.cpw, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$sys.ref.len, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$sys.wps, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$sys.sps, sfr$system, p.adj = "none") #*
+pairwise.t.test(sfr$sys.spw, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$sys.n.poly, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$sys.pspw, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$n.misspel, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$parser.sc.mean, sfr$system, p.adj = "none")
+
+pairwise.t.test(sfr$informativeness, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$naturalness, sfr$system, p.adj = "none")
+pairwise.t.test(sfr$quality, sfr$system, p.adj = "none")
 
 ##### Correlations by Dataset and System (Table 9) #####
 
