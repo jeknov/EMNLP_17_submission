@@ -155,6 +155,27 @@ lol.sfr.cor <- as.data.frame(cbind(cor(lols.sfr[, c(6:31)],
                                          type = "spearman")$P[1:23,-c(1:23)]))
 names(lol.sfr.cor) <- c("inf","nat","qual","inf.p","nat.p","qual.p")
 
+##### Correlation Graph for TGen on Bagel (Fig.1) #####
+
+dus <- subset(df, system=="Dusek")
+lols.bag <- subset(df, system=="LOLS" & dataset=="BAGEL")
+
+dus.rbm <- dus[,c(6:16,29:31)]
+names(dus.rbm) <- c("TER", "B1", "B2", "B3", "B4","RG", "NST", "LP", "CID","MET", "SIM","INF","NAT","QUA")
+dus.lbm <- dus[,c(18:27,29:31)]
+names(dus.lbm) <- c("RE","CPW", "LEN","WPS","SPS","SPW","POL","PPW","MSP","PRS", "INF","NAT","QUA")
+par(mfrow=c(1,2))
+corrplot::corrplot.mixed(cor(dus.rbm, method = "spearman"),
+                         lower = "circle", upper = "number", 
+                         main = "WBM", mar=c(0,0,1,0),
+                         tl.cex = .8, number.cex = 0.8, number.digits = 1,
+                         col=colorRampPalette(c("red","grey45","blue"))(200))
+corrplot::corrplot.mixed(cor(dus.lbm, method = "spearman"),
+                         lower = "circle", upper = "number", 
+                         main = "GBM", mar=c(0,0,1,0),
+                         tl.cex = .8, number.cex = 0.8, number.digits = 1,
+                         col=colorRampPalette(c("red","grey45","blue"))(200))
+
 
 ##### Correlations by Dataset (Table 10) #####
 
