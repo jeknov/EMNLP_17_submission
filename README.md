@@ -1,6 +1,6 @@
 # EMNLP 2017 submission
 
-This repository contains the dataset and statistical analysis code released with the submission of EMNLP 2017 paper "Why We Need New Evaluation Metrics for NLG".
+This repository contains the dataset and statistical analysis code released with the submission of EMNLP 2017 paper ["Why We Need New Evaluation Metrics for NLG"](https://arxiv.org/abs/1707.06875).
 
 ## File descriptions:
 
